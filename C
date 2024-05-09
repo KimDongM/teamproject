@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// 학생 정보를 저장하는 구조체 정의
+typedef struct {
+    char name[50];   // 학생 이름을 저장하는 문자열 배열
+    int student_id;  // 학생 학번을 저장하는 정수 변수
+    int class1;      // 첫 번째 과목 성적을 저장하는 정수 변수
+    int class2;      // 두 번째 과목 성적을 저장하는 정수 변수
+} students;
+
+int main() {
+    // 학생들의 정보를 배열로 초기화
+    students student[3] = {{"kim", 20240901, 78, 69}, {"lee", 20240902, 90, 74}, {"sung", 20240903, 62, 95}};
+
+    FILE *fp;
+    // 파일을 쓰기 모드로 열고 학생 정보를 파일에 씀
+    fp = fopen("sj.txt", "w");
+    for (int i = 0; i < 3; i++) {
+        fprintf(fp, "%s %d %d %d\n", student[i].name, student[i].student_id, student[i].class1, student[i].class2);
+    }
+    fclose(fp);
+
+    float total_1 = 0.0; // 첫 번째 과목 총 성적을 저장하는 변수
+    float total_2 = 0.0; // 두 번째 과목 총 성적을 저장하는 변수
+
+    // 파일을 읽기 모드로 열고 학생 정보를 파일에서 읽어와서 계산
+    fp = fopen("sj.txt", "r");
+    for (int i = 0; i < 3; i++) {
+        fscanf(fp, "%s %d %d %d", &student[i].name, &student[i].student_id, &student[i].class1, &student[i].class2);
+        total_1 += student[i].class1; // 첫 번째 과목 성적 누적
+        total_2 += student[i].class2; // 두 번째 과목 성적 누적
+    }
+
+    // 각 학생의 평균 성적을 출력
+    for (int i = 0; i < 3; i++) {
+        printf("%s (average) : %.2f\n", student[i].name, ((float)student[i].class1 + student[i].class2) / 2);
+    }
+    
+    // 각 과목의 평균 성적을 출력
+    printf("class1 average : %.2f\n", total_1 / 3.0); // 첫 번째 과목 평균 성적 출력
+    printf("class2 average : %.2f\n", total_2 / 3.0); // 두 번째 과목 평균 성적 출력
+    
+    return 0;
+}
