@@ -31,6 +31,7 @@ int main() {
         total_1 += student[i].class1; // 첫 번째 과목 성적 누적
         total_2 += student[i].class2; // 두 번째 과목 성적 누적
     }
+    fclose(fp);
 
     // 각 학생의 평균 성적을 출력
     for (int i = 0; i < 3; i++) {
